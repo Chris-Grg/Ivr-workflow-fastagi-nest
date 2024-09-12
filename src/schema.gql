@@ -1,0 +1,105 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type OriginOutput {
+  key: DTMF
+  destination: String
+}
+
+enum DTMF {
+  ZERO
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+  SIX
+  SEVEN
+  EIGHT
+  NINE
+  ASTERISK
+  HASH
+}
+
+type OptionOutput {
+  audio: String
+  waitTime: Float
+  queueName: String
+  extensionNumber: String
+}
+
+type ParentOutput {
+  key: DTMF!
+  parentName: String!
+}
+
+type GetAllIvr {
+  level: Float!
+  name: String!
+  type: workflowOptionTypeEnum!
+  options: OptionOutput!
+  children: [OriginOutput!]
+}
+
+enum workflowOptionTypeEnum {
+  QUEUE
+  IVR
+  EXTENSION
+}
+
+type IvrCRUDResponseOutput {
+  level: Float!
+  name: String!
+  type: workflowOptionTypeEnum!
+  options: OptionOutput!
+  children: [OriginOutput!]
+}
+
+input OriginInput {
+  key: DTMF
+  destination: String
+}
+
+input OptionInput {
+  audio: String
+  waitTime: Float
+  queueName: String
+  extensionNumber: String
+}
+
+input ParentInput {
+  key: DTMF!
+  parentName: String!
+}
+
+type Query {
+  helloWorld: String!
+  getAllIvr: [GetAllIvr!]!
+}
+
+type Mutation {
+  createWorkflow(input: CreateIvrWorkflowInput!): IvrCRUDResponseOutput!
+  deleteEntireWorkflow(confirmation: Boolean!): String!
+  editWorkflow(updateData: EditIvrWorkflowInput!): IvrCRUDResponseOutput!
+  deleteWorkflowNode(name: String!): String!
+}
+
+input CreateIvrWorkflowInput {
+  level: Float!
+  name: String!
+  type: workflowOptionTypeEnum!
+  options: OptionInput!
+  children: OriginInput
+  parent: ParentInput
+}
+
+input EditIvrWorkflowInput {
+  currentName: String!
+  level: Float
+  name: String
+  type: workflowOptionTypeEnum
+  options: OptionInput
+  children: OriginInput
+  parent: ParentInput
+}
